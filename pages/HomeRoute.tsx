@@ -2,22 +2,22 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Skeleton from 'react-loading-skeleton';
 
-import Footer from '../../src/components/Footer';
-import Header from '../../src/components/Header';
-import Products from '../../src/components/Products';
-import Burger from '../../src/components/Burger';
+import Footer from '../src/components/Footer';
+import Header from '../src/components/Header';
+import Products from '../src/components/Products';
+import Burger from '../src/components/Burger';
 
-import { api } from '../../src/services/api';
-import { RootState } from '../../src/store/index.store';
+import { api } from '../src/services/api';
+import { RootState } from '../src/store/index.store';
 import {
 	fetchProducts,
 	productsLoading,
-} from '../../src/store/actions/products/products.action';
+} from '../src/store/actions/products/products.action';
 
-import { Container, Content } from './styles';
+import { Container, Content } from '../styles/styles';
 import 'react-loading-skeleton/dist/skeleton.css';
 
-import { Product } from '../../src/store/@types/products';
+import { Product } from '../src/store/@types/products';
 
 const HomeRoute: React.FC = () => {
 	const dispatcher = useDispatch();

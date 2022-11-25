@@ -8,7 +8,10 @@ const nextConfig = {
 		],
 	},
 	compiler: {
-		styledComponents: true,
+		styledComponents: {
+			ssr: true,
+			displayName: true,
+		},
 	},
 	images: {
 		domains: ['mks-sistemas.nyc3.digitaloceanspaces.com'],
