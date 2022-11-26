@@ -1,10 +1,10 @@
 import Image from 'next/image';
-import { useReducer } from 'react';
+import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import cart from '../../../public/shopping-cart.svg';
-import { productsLoading } from '../../store/actions/products/products.action';
-import { RootState } from '../../store/index.store';
+
+import { productsLoadingAction } from '../../store/actions/products/products.action';
 
 import {
 	Container,
@@ -15,11 +15,18 @@ import {
 	CountProductText,
 } from './styles';
 
+import type { RootState } from '../../store/index.store';
+
 const Header: React.FC = () => {
 	const dispatcher = useDispatch();
+
 	const productCart = useSelector(
 		(appState: RootState) => appState.productCartReducer
 	);
+
+	const productsLoading = useCallback(() => {
+		dispatcher(productsLoadingAction({ loading: false, open: true }));
+	}, [dispatcher]);
 
 	return (
 		<Container>
@@ -28,12 +35,7 @@ const Header: React.FC = () => {
 				<SubTitleBrand>Sistemas</SubTitleBrand>
 			</ContentBrand>
 
-			<ContentCar
-				data-testid='content-cart'
-				onClick={() =>
-					dispatcher(productsLoading({ loading: false, open: true }))
-				}
-			>
+			<ContentCar data-testid='content-cart' onClick={productsLoading}>
 				<Image src={cart} alt='icon shopping cat' width='15' height='15' />
 				<CountProductText>{productCart.totalItemsProduct}</CountProductText>
 			</ContentCar>

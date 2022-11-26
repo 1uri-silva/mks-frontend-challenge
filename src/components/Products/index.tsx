@@ -1,11 +1,12 @@
 import Image from 'next/image';
 import { useDispatch } from 'react-redux';
 
-import { productsLoading } from '../../store/actions/products/products.action';
-
 import bag from '../../../public/shopping-bag.svg';
-import { Product } from '../../store/@types/products';
+
 import { addItemProductToCartAction } from '../../store/actions/products/productCart.action';
+import { productsLoadingAction } from '../../store/actions/products/products.action';
+
+import type { Product } from '../../store/@types/products';
 
 import {
 	Container,
@@ -18,12 +19,18 @@ import {
 	ButtonPurchase,
 	PurchaseText,
 } from './styles';
+import { useCallback } from 'react';
 
 const Products: React.FC<{ products: Product }> = ({ products }) => {
 	const dispatcher = useDispatch();
 
+	const addNewItemToCart = useCallback(() => {
+		dispatcher(productsLoadingAction({ loading: false, open: true }));
+		dispatcher(addItemProductToCartAction(products));
+	}, [dispatcher, products]);
+
 	return (
-		<ContainerShadow>
+		<ContainerShadow data-testid='product-container'>
 			<Container>
 				<Image
 					src={products.photo}
@@ -40,13 +47,7 @@ const Products: React.FC<{ products: Product }> = ({ products }) => {
 
 				<ProductDescription>{products.description}</ProductDescription>
 			</Container>
-			<ButtonPurchase
-				data-testid='purchase button'
-				onClick={() => {
-					dispatcher(productsLoading({ loading: false, open: true }));
-					dispatcher(addItemProductToCartAction(products));
-				}}
-			>
+			<ButtonPurchase data-testid='purchase-button' onClick={addNewItemToCart}>
 				<Image src={bag} alt='icon shopping bag' width='15' height='15' />
 				<PurchaseText>COMPRAR</PurchaseText>
 			</ButtonPurchase>

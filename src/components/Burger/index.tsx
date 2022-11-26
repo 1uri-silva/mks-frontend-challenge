@@ -1,11 +1,11 @@
 import Image from 'next/image';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { productsLoading } from '../../store/actions/products/products.action';
-
 import close from '../../../public/close_cart.svg';
-import { RootState } from '../../store/index.store';
+
 import ProductsBurger from '../ProductsBurger';
+
+import { productsLoadingAction } from '../../store/actions/products/products.action';
 
 import {
 	StyledMenu,
@@ -17,6 +17,9 @@ import {
 	StyledMenuContent,
 } from './styles';
 
+import type { RootState } from '../../store/index.store';
+import { useCallback } from 'react';
+
 const Burger: React.FC = () => {
 	const dispatcher = useDispatch();
 
@@ -25,8 +28,12 @@ const Burger: React.FC = () => {
 	);
 	const product = useSelector((state: RootState) => state.productsReducer);
 
+	const closeBurgerCart = useCallback(() => {
+		dispatcher(productsLoadingAction({ loading: false, open: false }));
+	}, [dispatcher]);
+
 	return (
-		<StyledMenu open={product.open}>
+		<StyledMenu open={!!product.open}>
 			<StyledMenuContent>
 				<HeaderCarPurchase>
 					<CarPurchaseText>
@@ -38,9 +45,7 @@ const Burger: React.FC = () => {
 						alt='close cart'
 						width='20'
 						height='20'
-						onClick={() =>
-							dispatcher(productsLoading({ loading: false, open: false }))
-						}
+						onClick={closeBurgerCart}
 					/>
 				</HeaderCarPurchase>
 
@@ -55,7 +60,9 @@ const Burger: React.FC = () => {
 				<TextTotal>Total:</TextTotal>
 				<TextTotal>$ {productCart.totalPrice}</TextTotal>
 			</ContainerTotal>
-			<FinishPurchase>Finalizar Compra</FinishPurchase>
+			<FinishPurchase onClick={() => alert('Compra finalizada')}>
+				Finalizar Compra
+			</FinishPurchase>
 		</StyledMenu>
 	);
 };

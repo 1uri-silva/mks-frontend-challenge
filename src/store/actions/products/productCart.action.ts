@@ -42,6 +42,7 @@ const { actions, reducer } = createSlice({
 
 			if (state.products.length <= 0) {
 				state.totalPrice = 0;
+				state.products = [];
 			}
 			state.totalItemsProduct = state.products.length;
 		},

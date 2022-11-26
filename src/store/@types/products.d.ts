@@ -9,8 +9,8 @@ type Product = {
 
 type ProductsApi = {
 	products: Product[];
-	loading: boolean;
-	open: boolean;
+	loading?: boolean;
+	open?: boolean;
 };
 
 type ProductState = {
